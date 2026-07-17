@@ -1,26 +1,91 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-dm-serif);
+  --font-body: var(--font-jakarta);
+
+  --color-teal-50: #f0fafa;
+  --color-teal-100: #ccf2f0;
+  --color-teal-200: #99e4df;
+  --color-teal-500: #14a0a0;
+  --color-teal-600: #0d8585;
+  --color-teal-700: #0a6b6b;
+  --color-teal-800: #074f4f;
+  --color-teal-900: #043333;
+
+  --color-amber-100: #fef3c7;
+  --color-amber-400: #f4b942;
+  --color-amber-500: #e8a020;
+
+  --color-coral-100: #fee2e2;
+  --color-coral-500: #e63946;
+
+  --color-cream: #fafaf5;
+  --color-ink: #1b2b2a;
+  --color-muted: #5f8887;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display), serif;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes fill-bar {
+  from { width: 0%; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fill-bar {
+  animation: fill-bar 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s ease-out forwards;
+}
+
+/* details/summary reset */
+summary { list-style: none; }
+summary::-webkit-details-marker { display: none; }
+details[open] .chevron-icon { transform: rotate(180deg); }
+.chevron-icon { transition: transform 0.2s ease; }
+
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+}
+
+.progress-bar-track {
+  background: var(--color-teal-100);
+  border-radius: 99px;
+  overflow: hidden;
+  height: 12px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--color-teal-600), var(--color-teal-500), #40c9c9);
+  background-size: 200% 100%;
+  animation: fill-bar 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+             shimmer 2.5s ease-in-out 1.2s infinite;
 }
