@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-display: var(--font-dm-serif);
-  --font-body: var(--font-jakarta);
+  --font-display: var(--font-poppins);
+  --font-body: var(--font-poppins);
 
   --color-teal-50: #f2faf9;
   --color-teal-100: #dcf2f0;
@@ -37,7 +37,7 @@ body {
 }
 
 h1, h2, h3 {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
 }
 
 @keyframes shimmer {
@@ -108,4 +108,3 @@ details[open] .chevron-icon { transform: rotate(180deg); }
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-

@@ -56,22 +56,22 @@ export default function BottomNav() {
     <nav
       style={{
         position: "fixed",
-        bottom: "24px",
+        bottom: "26px",
         left: "50%",
         transform: "translateX(-50%)",
-        width: "calc(100% - 32px)",
-        maxWidth: "398px",
+        width: "calc(100% - 48px)",
+        maxWidth: "382px",
         zIndex: 50,
-        borderRadius: "24px",
-        background: "rgba(255, 255, 255, 0.85)",
-        backdropFilter: "blur(20px) saturate(180%)",
-        WebkitBackdropFilter: "blur(20px) saturate(180%)",
-        border: "1px solid rgba(255, 255, 255, 0.6)",
-        boxShadow: "0 10px 30px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02)",
-        padding: "6px",
+        borderRadius: "26px",
+        background: "rgba(255, 255, 255, 0.96)",
+        backdropFilter: "blur(18px) saturate(160%)",
+        WebkitBackdropFilter: "blur(18px) saturate(160%)",
+        border: "1px solid rgba(235, 240, 238, 0.9)",
+        boxShadow: "0 14px 30px rgba(18,45,42,0.12)",
+        padding: "10px 10px 9px",
         display: "flex",
         alignItems: "center",
-        gap: "4px",
+        gap: "2px",
       }}
     >
       {tabs.map((tab) => {
@@ -85,11 +85,11 @@ export default function BottomNav() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: "4px",
-              padding: "8px 4px",
-              borderRadius: "18px",
-              background: isActive ? "rgba(16, 163, 158, 0.08)" : "transparent",
-              color: isActive ? "var(--color-teal-600)" : "var(--color-muted)",
+              gap: "5px",
+              padding: "5px 4px 4px",
+              borderRadius: "16px",
+              background: "transparent",
+              color: isActive ? "#007a6d" : "#60676b",
               textDecoration: "none",
               transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
             }}
@@ -99,7 +99,7 @@ export default function BottomNav() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                transform: isActive ? "scale(1.05)" : "scale(1)",
+                transform: isActive ? "scale(1.08)" : "scale(1)",
                 transition: "transform 0.2s ease",
               }}
             >
@@ -110,15 +110,24 @@ export default function BottomNav() {
                 fontSize: "9px",
                 fontWeight: isActive ? 700 : 500,
                 lineHeight: 1,
-                letterSpacing: "0.01em",
+                letterSpacing: "0",
               }}
             >
               {tab.label}
             </span>
+            <span
+              aria-hidden="true"
+              style={{
+                width: "24px",
+                height: "3px",
+                borderRadius: "999px",
+                background: isActive ? "#007a6d" : "transparent",
+                marginTop: "2px",
+              }}
+            />
           </Link>
         );
       })}
     </nav>
   );
 }
-
