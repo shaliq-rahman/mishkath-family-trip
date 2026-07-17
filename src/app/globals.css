@@ -4,25 +4,25 @@
   --font-display: var(--font-dm-serif);
   --font-body: var(--font-jakarta);
 
-  --color-teal-50: #f0fafa;
-  --color-teal-100: #ccf2f0;
-  --color-teal-200: #99e4df;
-  --color-teal-500: #14a0a0;
-  --color-teal-600: #0d8585;
-  --color-teal-700: #0a6b6b;
-  --color-teal-800: #074f4f;
-  --color-teal-900: #043333;
+  --color-teal-50: #f2faf9;
+  --color-teal-100: #dcf2f0;
+  --color-teal-200: #b5e6e1;
+  --color-teal-500: #10a39e;
+  --color-teal-600: #0a8782;
+  --color-teal-700: #066b67;
+  --color-teal-800: #04524f;
+  --color-teal-900: #023634;
 
   --color-amber-100: #fef3c7;
-  --color-amber-400: #f4b942;
-  --color-amber-500: #e8a020;
+  --color-amber-400: #f59e0b;
+  --color-amber-500: #d97706;
 
   --color-coral-100: #fee2e2;
-  --color-coral-500: #e63946;
+  --color-coral-500: #ef4444;
 
-  --color-cream: #fafaf5;
-  --color-ink: #1b2b2a;
-  --color-muted: #5f8887;
+  --color-cream: #fbfbf9;
+  --color-ink: #111e1d;
+  --color-muted: #648281;
 }
 
 * {
@@ -30,7 +30,7 @@
 }
 
 body {
-  background-color: var(--color-cream);
+  background-color: #f7f7f4;
   color: var(--color-ink);
   font-family: var(--font-body), sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -50,42 +50,62 @@ h1, h2, h3 {
 }
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fill-bar {
-  animation: fill-bar 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: fill-bar 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-fade-up {
-  animation: fade-up 0.5s ease-out forwards;
+  animation: fade-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* details/summary reset */
-summary { list-style: none; }
+summary { list-style: none; outline: none; }
 summary::-webkit-details-marker { display: none; }
 details[open] .chevron-icon { transform: rotate(180deg); }
-.chevron-icon { transition: transform 0.2s ease; }
+.chevron-icon { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 
 .card {
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.01);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover {
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.03), 0 1px 4px rgba(0, 0, 0, 0.01);
 }
 
 .progress-bar-track {
-  background: var(--color-teal-100);
+  background: rgba(16, 163, 158, 0.08);
   border-radius: 99px;
   overflow: hidden;
-  height: 12px;
+  height: 8px;
 }
 
 .progress-bar-fill {
   height: 100%;
   border-radius: 99px;
-  background: linear-gradient(90deg, var(--color-teal-600), var(--color-teal-500), #40c9c9);
+  background: linear-gradient(90deg, #10a39e, #2dd4bf, #67e8f9);
   background-size: 200% 100%;
-  animation: fill-bar 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+  animation: fill-bar 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards,
              shimmer 2.5s ease-in-out 1.2s infinite;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+

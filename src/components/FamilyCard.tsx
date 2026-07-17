@@ -1,9 +1,9 @@
 import { Family, FEE, AGE_LABEL, getFamilyFee, getFamilyCollected, fmt } from "@/data/config";
 
 const ageStyle: Record<string, { bg: string; color: string }> = {
-  adult:  { bg: "#e0f2fe", color: "#0369a1" },
-  kid:    { bg: "#fef9c3", color: "#a16207" },
-  infant: { bg: "#dcfce7", color: "#15803d" },
+  adult:  { bg: "rgba(3, 105, 161, 0.06)", color: "#0369a1" },
+  kid:    { bg: "rgba(161, 98, 7, 0.06)", color: "#a16207" },
+  infant: { bg: "rgba(21, 128, 61, 0.06)", color: "#15803d" },
 };
 
 export default function FamilyCard({ family }: { family: Family }) {
@@ -18,12 +18,14 @@ export default function FamilyCard({ family }: { family: Family }) {
 
   return (
     <div className="card overflow-hidden">
-      <details>
+      <details className="group">
         {/* ── Collapsed header ── */}
-        <summary className="flex items-center gap-3 px-4 py-3.5 cursor-pointer select-none">
+        <summary className="flex items-center gap-3 px-4 py-3.5 cursor-pointer select-none hover:bg-gray-50/30 transition-colors duration-200">
           <div
-            className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0"
-            style={{ background: "var(--color-teal-600)" }}
+            className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0 shadow-sm"
+            style={{
+              background: "linear-gradient(135deg, var(--color-teal-500) 0%, var(--color-teal-600) 100%)",
+            }}
           >
             {family.familyName[0]}
           </div>
@@ -32,37 +34,38 @@ export default function FamilyCard({ family }: { family: Family }) {
             <p className="text-sm font-bold text-gray-800 leading-tight truncate">
               {family.familyName}
             </p>
-            <p className="text-xs mt-0.5" style={{ color: "var(--color-muted)" }}>
-              {adults > 0 && `${adults}A`}
-              {kids > 0 && ` · ${kids}K`}
-              {infants > 0 && ` · ${infants} infant`}
-              {" · "}
-              <span className={remaining === 0 ? "text-green-600 font-semibold" : ""}>
-                {remaining === 0 ? "Fully paid ✓" : `${fmt(remaining)} pending`}
+            <p className="text-[11px] text-gray-400 font-semibold mt-0.5 flex items-center gap-1.5 flex-wrap">
+              <span>
+                {adults > 0 && `${adults}A`}
+                {kids > 0 && ` · ${kids}K`}
+                {infants > 0 && ` · ${infants}I`}
+              </span>
+              <span>•</span>
+              <span className={remaining === 0 ? "text-teal-600 font-bold" : "text-red-500 font-semibold"}>
+                {remaining === 0 ? "Fully Paid" : `${fmt(remaining)} pending`}
               </span>
             </p>
           </div>
 
           <div className="text-right shrink-0">
-            <p className="text-sm font-bold" style={{ color: "var(--color-teal-700)" }}>
+            <p className="text-sm font-bold text-teal-800">
               {fmt(collected)}
             </p>
-            <p className="text-xs" style={{ color: "var(--color-muted)" }}>
+            <p className="text-[10px] text-gray-400 font-semibold mt-0.5">
               of {fmt(totalFee)}
             </p>
           </div>
 
           <svg
-            className="chevron-icon shrink-0"
-            width="16" height="16" viewBox="0 0 16 16" fill="none"
-            style={{ color: "var(--color-muted)" }}
+            className="chevron-icon shrink-0 text-gray-400 transition-transform duration-350"
+            width="14" height="14" viewBox="0 0 16 16" fill="none"
           >
-            <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </summary>
 
         {/* ── Expanded member rows ── */}
-        <div className="divide-y divide-gray-50">
+        <div className="divide-y divide-gray-100/50 bg-[#fbfbf9]/40 border-t border-gray-100/50">
           {family.members.map((m) => {
             const due       = FEE[m.type];
             const isFree    = due === 0;
@@ -73,24 +76,28 @@ export default function FamilyCard({ family }: { family: Family }) {
             return (
               <div key={m.name} className="flex items-center gap-3 px-4 py-3">
                 <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
-                  style={{ background: isFree ? "#16a34a" : "var(--color-teal-600)" }}
+                  className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0"
+                  style={{
+                    background: isFree 
+                      ? "linear-gradient(135deg, #22c55e, #16a34a)" 
+                      : "linear-gradient(135deg, #0d9488, #0f766e)",
+                  }}
                 >
                   {m.name[0]}
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <p className="text-sm font-semibold text-gray-800">{m.name}</p>
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <p className="text-xs font-bold text-gray-800">{m.name}</p>
                     <span
-                      className="text-xs font-semibold px-2 py-0.5 rounded-full"
+                      className="text-[9px] font-bold px-2 py-0.5 rounded-full"
                       style={{ background: style.bg, color: style.color }}
                     >
                       {AGE_LABEL[m.type]}{isFree && " · Free"}
                     </span>
                   </div>
                   {isPartial && (
-                    <p className="text-xs mt-0.5 text-amber-600">
+                    <p className="text-[10px] text-amber-600 font-semibold mt-0.5">
                       Paid {fmt(m.paid)} of {fmt(due)}
                     </p>
                   )}
@@ -98,25 +105,25 @@ export default function FamilyCard({ family }: { family: Family }) {
 
                 <div className="text-right shrink-0">
                   {isFree ? (
-                    <span className="text-xs font-bold text-green-600">Free</span>
+                    <span className="text-[10px] font-bold text-green-600 px-2 py-0.5 rounded-full bg-green-50">Free</span>
                   ) : (
-                    <>
-                      <p className="text-sm font-bold" style={{ color: "var(--color-teal-700)" }}>
+                    <div className="flex flex-col items-end gap-0.5">
+                      <p className="text-xs font-bold text-teal-850">
                         {fmt(due)}
                       </p>
                       <span
-                        className="text-xs font-semibold px-2 py-0.5 rounded-full"
+                        className="text-[9px] font-bold px-2 py-0.5 rounded-full"
                         style={
                           isPaid
-                            ? { background: "#dcfce7", color: "#15803d" }
+                            ? { background: "rgba(34, 197, 94, 0.08)", color: "#16a34a" }
                             : isPartial
-                            ? { background: "#fef9c3", color: "#a16207" }
-                            : { background: "#fee2e2", color: "#dc2626" }
+                            ? { background: "rgba(245, 158, 11, 0.08)", color: "#d97706" }
+                            : { background: "rgba(239, 68, 68, 0.08)", color: "#ef4444" }
                         }
                       >
                         {isPaid ? "Paid" : isPartial ? "Partial" : "Unpaid"}
                       </span>
-                    </>
+                    </div>
                   )}
                 </div>
               </div>
@@ -125,16 +132,19 @@ export default function FamilyCard({ family }: { family: Family }) {
         </div>
       </details>
 
-      {/* Progress bar — always visible */}
-      <div className="h-0.5 mx-4" style={{ background: "var(--color-teal-100)" }}>
+      {/* Progress bar — always visible at card bottom */}
+      <div className="h-0.5 w-full bg-teal-500/5">
         <div
-          className="h-full"
+          className="h-full transition-all duration-500"
           style={{
             width: `${pct}%`,
-            background: remaining === 0 ? "#16a34a" : "var(--color-teal-500)",
+            background: remaining === 0 
+              ? "linear-gradient(90deg, #10a39e, #22c55e)" 
+              : "linear-gradient(90deg, #0d8585, #14a0a0)",
           }}
         />
       </div>
     </div>
   );
 }
+
