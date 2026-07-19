@@ -1,4 +1,5 @@
 import { expenseCategories, spends, fmt } from "@/data/config";
+import PageVectorArt from "@/components/PageVectorArt";
 
 const categoryColors: Record<string, string> = {
   Transport: "#2563eb",
@@ -33,8 +34,9 @@ export default function BudgetPage() {
   });
 
   return (
-    <main className="min-h-[calc(100vh-110px)] bg-[#f6f8f7] px-5 pb-4 pt-6 text-[#0f172a]">
-      <header>
+    <main className="textured-page min-h-[calc(100vh-110px)] px-5 pb-4 pt-6 text-[#0f172a]">
+      <PageVectorArt variant="budget" />
+      <header className="relative z-10">
         <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-[#0f766e]">
           Trip Plan
         </p>
@@ -46,13 +48,13 @@ export default function BudgetPage() {
         </p>
       </header>
 
-      <section className="mt-5 rounded-[24px] bg-white px-4 py-4 shadow-[0_12px_28px_rgba(15,23,42,0.08)]">
+      <section className="glass-panel relative z-10 mt-5 rounded-[24px] px-4 py-4">
         <div className="grid grid-cols-3 gap-2 text-center">
           <div>
             <p className="text-[11px] font-bold text-[#64748b]">Planned</p>
             <p className="mt-1 text-[17px] font-extrabold text-[#0f172a]">{fmt(totalBudget)}</p>
           </div>
-          <div className="border-x border-[#e2e8f0]">
+          <div className="border-x border-white/45">
             <p className="text-[11px] font-bold text-[#64748b]">Used</p>
             <p className="mt-1 text-[17px] font-extrabold text-[#ef4444]">{fmt(totalSpent)}</p>
           </div>
@@ -62,7 +64,7 @@ export default function BudgetPage() {
           </div>
         </div>
 
-        <div className="mt-4 h-2 rounded-full bg-[#e2e8f0]">
+        <div className="mt-4 h-2 rounded-full bg-white/38">
           <div
             className="h-full rounded-full bg-[#0f766e]"
             style={{ width: `${spentPct}%` }}
@@ -74,7 +76,7 @@ export default function BudgetPage() {
         </div>
       </section>
 
-      <section className="mt-5">
+      <section className="relative z-10 mt-5">
         <h2 className="text-[13px] font-extrabold uppercase tracking-[0.12em] text-[#334155]">
           Budget Categories
         </h2>
@@ -83,10 +85,10 @@ export default function BudgetPage() {
           {categories.map((category) => (
             <article
               key={category.name}
-              className="rounded-[20px] bg-white px-4 py-3 shadow-[0_8px_20px_rgba(15,23,42,0.06)]"
+              className="glass-card rounded-[20px] px-4 py-3"
             >
               <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-[#f1f5f9] text-xl">
+                <span className="glass-soft flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] text-xl">
                   {category.icon}
                 </span>
 
@@ -108,7 +110,7 @@ export default function BudgetPage() {
                     </div>
                   </div>
 
-                  <div className="mt-3 h-1.5 rounded-full bg-[#e2e8f0]">
+                  <div className="mt-3 h-1.5 rounded-full bg-white/45">
                     <div
                       className="h-full rounded-full"
                       style={{ width: `${category.usedPct}%`, backgroundColor: category.color }}

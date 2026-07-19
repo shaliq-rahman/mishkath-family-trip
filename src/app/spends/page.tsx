@@ -1,4 +1,5 @@
 import { families, spends, fmt, getFamilyCollected } from "@/data/config";
+import PageVectorArt from "@/components/PageVectorArt";
 
 const categoryColors: Record<string, string> = {
   Transport: "#2563eb",
@@ -30,8 +31,9 @@ export default function SpendsPage() {
   );
 
   return (
-    <main className="min-h-[calc(100vh-110px)] bg-[#f6f8f7] px-5 pb-4 pt-6 text-[#0f172a]">
-      <header>
+    <main className="textured-page min-h-[calc(100vh-110px)] px-5 pb-4 pt-6 text-[#0f172a]">
+      <PageVectorArt variant="spends" />
+      <header className="relative z-10">
         <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-[#0f766e]">
           Money Out
         </p>
@@ -43,7 +45,7 @@ export default function SpendsPage() {
         </p>
       </header>
 
-      <section className="mt-5 rounded-[24px] bg-white px-4 py-4 shadow-[0_12px_28px_rgba(15,23,42,0.08)]">
+      <section className="glass-panel relative z-10 mt-5 rounded-[24px] px-4 py-4">
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#64748b]">
@@ -54,7 +56,7 @@ export default function SpendsPage() {
             </p>
           </div>
 
-          <div className={`rounded-[18px] px-4 py-3 text-right ${isOverSpent ? "bg-[#fef2f2]" : "bg-[#ecfdf5]"}`}>
+          <div className={`glass-soft rounded-[18px] px-4 py-3 text-right ${isOverSpent ? "bg-[#fef2f2]/45" : "bg-[#ecfdf5]/45"}`}>
             <p className={`text-[11px] font-bold ${isOverSpent ? "text-[#ef4444]" : "text-[#0f766e]"}`}>
               {isOverSpent ? "Over Spent" : "Remaining"}
             </p>
@@ -64,7 +66,7 @@ export default function SpendsPage() {
           </div>
         </div>
 
-        <div className="mt-4 h-2 rounded-full bg-[#e2e8f0]">
+        <div className="mt-4 h-2 rounded-full bg-white/38">
           <div
             className="h-full rounded-full bg-[#ef4444]"
             style={{ width: `${spentPct}%` }}
@@ -76,12 +78,12 @@ export default function SpendsPage() {
         </div>
       </section>
 
-      <section className="mt-5">
+      <section className="relative z-10 mt-5">
         <h2 className="text-[13px] font-extrabold uppercase tracking-[0.12em] text-[#334155]">
           Spend List
         </h2>
 
-        <div className="mt-3 overflow-hidden rounded-[22px] bg-white shadow-[0_8px_20px_rgba(15,23,42,0.06)]">
+        <div className="glass-card mt-3 overflow-hidden rounded-[22px]">
           {sortedSpends.map((spend, index) => {
             const color = categoryColors[spend.category] ?? "#0f766e";
 
@@ -89,11 +91,11 @@ export default function SpendsPage() {
               <article
                 key={spend.id}
                 className={`flex items-center gap-3 px-4 py-4 ${
-                  index === 0 ? "" : "border-t border-[#e2e8f0]"
+                  index === 0 ? "" : "border-t border-white/45"
                 }`}
               >
                 <span
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-[#f1f5f9] text-[16px] font-extrabold text-white"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] text-[16px] font-extrabold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]"
                   style={{ backgroundColor: color }}
                 >
                   {spend.category.charAt(0)}
