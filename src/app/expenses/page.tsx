@@ -1,94 +1,125 @@
 import { expenseCategories, spends, fmt } from "@/data/config";
 
-export default function ExpensesPage() {
-  const totalBudget = expenseCategories.reduce((s, c) => s + c.expected, 0);
-  const totalSpent = spends.reduce((s, sp) => s + sp.amount, 0);
-  const budgetLeft = totalBudget - totalSpent;
+const categoryColors: Record<string, string> = {
+  Transport: "#2563eb",
+  Accommodation: "#7c3aed",
+  "Food & Dining": "#d97706",
+  Activities: "#0f766e",
+  Miscellaneous: "#64748b",
+};
 
-  return (
-    <div className="px-4 pt-6 space-y-4">
-      {/* Page header */}
-      <div>
-        <h1 className="text-2xl font-extrabold text-teal-950">Expected Expenses</h1>
-        <p className="text-xs text-gray-400 font-semibold mt-1">
-          {expenseCategories.length} categories · {fmt(totalBudget)} total budget
-        </p>
-      </div>
-
-      {/* Budget overview */}
-      <div className="grid grid-cols-3 gap-2.5">
-        <div className="card p-3 text-center flex flex-col justify-between min-h-[75px]">
-          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Budget</p>
-          <p className="text-sm font-bold text-teal-800 mt-1">
-            {fmt(totalBudget)}
-          </p>
-        </div>
-        <div className="card p-3 text-center flex flex-col justify-between min-h-[75px]">
-          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Spent</p>
-          <p className="text-sm font-bold text-amber-700 mt-1">{fmt(totalSpent)}</p>
-        </div>
-        <div className="card p-3 text-center flex flex-col justify-between min-h-[75px]">
-          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Left</p>
-          <p className="text-sm font-bold text-green-700 mt-1">{fmt(budgetLeft)}</p>
-        </div>
-      </div>
-
-      {/* Categories */}
-      <div className="card p-5 space-y-4">
-        {expenseCategories.map((cat) => {
-          const catSpent = spends
-            .filter((s) => s.category === cat.name)
-            .reduce((sum, s) => sum + s.amount, 0);
-          const pct = Math.min(100, Math.round((catSpent / cat.expected) * 100));
-
-          return (
-            <div key={cat.name} className="space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span
-                    className="w-9 h-9 rounded-2xl flex items-center justify-center text-base shadow-sm"
-                    style={{ background: "rgba(16, 163, 158, 0.06)" }}
-                  >
-                    {cat.icon}
-                  </span>
-                  <div>
-                    <p className="text-xs font-bold text-gray-800">{cat.name}</p>
-                    {catSpent > 0 && (
-                      <p className="text-[10px] text-amber-600 font-semibold mt-0.5">{fmt(catSpent)} spent</p>
-                    )}
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs font-bold text-teal-900">
-                    {fmt(cat.expected)}
-                  </p>
-                  <p className="text-[10px] text-gray-400 font-semibold mt-0.5">
-                    {fmt(cat.expected - catSpent)} left
-                  </p>
-                </div>
-              </div>
-              
-              {/* Thin Custom Progress Bar */}
-              <div className="h-1 rounded-full w-full bg-teal-500/5 overflow-hidden">
-                {catSpent > 0 && (
-                  <div
-                    className="h-full rounded-full transition-all duration-500"
-                    style={{ width: `${pct}%`, background: "linear-gradient(90deg, var(--color-amber-400), var(--color-amber-500))" }}
-                  />
-                )}
-              </div>
-            </div>
-          );
-        })}
-
-        <div className="flex items-center justify-between pt-3.5 border-t border-gray-100/50">
-          <span className="font-bold text-gray-400 text-[10px] uppercase tracking-wider">Total Budget</span>
-          <span className="font-extrabold text-base text-teal-950">
-            {fmt(totalBudget)}
-          </span>
-        </div>
-      </div>
-    </div>
-  );
+function percent(value: number, total: number) {
+  return total > 0 ? Math.min(100, Math.round((value / total) * 100)) : 0;
 }
 
+export default function BudgetPage() {
+  const totalBudget = expenseCategories.reduce((sum, category) => sum + category.expected, 0);
+  const totalSpent = spends.reduce((sum, spend) => sum + spend.amount, 0);
+  const totalLeft = totalBudget - totalSpent;
+  const spentPct = percent(totalSpent, totalBudget);
+
+  const categories = expenseCategories.map((category) => {
+    const spent = spends
+      .filter((spend) => spend.category === category.name)
+      .reduce((sum, spend) => sum + spend.amount, 0);
+
+    return {
+      ...category,
+      spent,
+      left: category.expected - spent,
+      usedPct: percent(spent, category.expected),
+      color: categoryColors[category.name] ?? "#0f766e",
+    };
+  });
+
+  return (
+    <main className="min-h-[calc(100vh-110px)] bg-[#f6f8f7] px-5 pb-4 pt-6 text-[#0f172a]">
+      <header>
+        <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-[#0f766e]">
+          Trip Plan
+        </p>
+        <h1 className="mt-1 text-[34px] font-extrabold leading-none tracking-normal text-[#123331]">
+          Budget
+        </h1>
+        <p className="mt-2 text-sm font-medium text-[#64748b]">
+          Planned trip costs, money already used, and what is still available.
+        </p>
+      </header>
+
+      <section className="mt-5 rounded-[24px] bg-white px-4 py-4 shadow-[0_12px_28px_rgba(15,23,42,0.08)]">
+        <div className="grid grid-cols-3 gap-2 text-center">
+          <div>
+            <p className="text-[11px] font-bold text-[#64748b]">Planned</p>
+            <p className="mt-1 text-[17px] font-extrabold text-[#0f172a]">{fmt(totalBudget)}</p>
+          </div>
+          <div className="border-x border-[#e2e8f0]">
+            <p className="text-[11px] font-bold text-[#64748b]">Used</p>
+            <p className="mt-1 text-[17px] font-extrabold text-[#ef4444]">{fmt(totalSpent)}</p>
+          </div>
+          <div>
+            <p className="text-[11px] font-bold text-[#64748b]">Available</p>
+            <p className="mt-1 text-[17px] font-extrabold text-[#0f766e]">{fmt(totalLeft)}</p>
+          </div>
+        </div>
+
+        <div className="mt-4 h-2 rounded-full bg-[#e2e8f0]">
+          <div
+            className="h-full rounded-full bg-[#0f766e]"
+            style={{ width: `${spentPct}%` }}
+          />
+        </div>
+        <div className="mt-2 flex items-center justify-between text-[12px] font-bold">
+          <span className="text-[#0f766e]">{spentPct}% of budget used</span>
+          <span className="text-[#64748b]">{fmt(totalLeft)} available</span>
+        </div>
+      </section>
+
+      <section className="mt-5">
+        <h2 className="text-[13px] font-extrabold uppercase tracking-[0.12em] text-[#334155]">
+          Budget Categories
+        </h2>
+
+        <div className="mt-3 space-y-3">
+          {categories.map((category) => (
+            <article
+              key={category.name}
+              className="rounded-[20px] bg-white px-4 py-3 shadow-[0_8px_20px_rgba(15,23,42,0.06)]"
+            >
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-[#f1f5f9] text-xl">
+                  {category.icon}
+                </span>
+
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <h3 className="truncate text-[15px] font-extrabold text-[#122827]">
+                        {category.name}
+                      </h3>
+                      <p className="mt-0.5 text-[12px] font-semibold text-[#64748b]">
+                        Planned {fmt(category.expected)} • Used {fmt(category.spent)}
+                      </p>
+                    </div>
+                    <div className="shrink-0 text-right">
+                      <p className="text-[15px] font-extrabold" style={{ color: category.color }}>
+                        {fmt(category.left)}
+                      </p>
+                      <p className="text-[11px] font-semibold text-[#64748b]">available</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 h-1.5 rounded-full bg-[#e2e8f0]">
+                    <div
+                      className="h-full rounded-full"
+                      style={{ width: `${category.usedPct}%`, backgroundColor: category.color }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+}

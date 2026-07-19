@@ -1,95 +1,121 @@
-import { spends, fmt } from "@/data/config";
+import { families, spends, fmt, getFamilyCollected } from "@/data/config";
+
+const categoryColors: Record<string, string> = {
+  Transport: "#2563eb",
+  Accommodation: "#7c3aed",
+  "Food & Dining": "#d97706",
+  Activities: "#0f766e",
+  Miscellaneous: "#64748b",
+};
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-IN", {
     day: "numeric",
     month: "short",
-    year: "numeric",
   });
 }
 
-const categoryStyle: Record<string, { bg: string; color: string; icon: string }> = {
-  Transport:       { bg: "rgba(29, 78, 216, 0.06)", color: "#1d4ed8", icon: "🚌" },
-  Accommodation:   { bg: "rgba(109, 40, 217, 0.06)", color: "#6d28d9", icon: "🏨" },
-  "Food & Dining": { bg: "rgba(161, 98, 7, 0.06)", color: "#a16207", icon: "🍽️" },
-  Activities:      { bg: "rgba(21, 128, 61, 0.06)", color: "#15803d", icon: "🎡" },
-  Miscellaneous:   { bg: "rgba(71, 85, 105, 0.06)", color: "#475569", icon: "📦" },
-};
+function percent(value: number, total: number) {
+  return total > 0 ? Math.min(100, Math.round((value / total) * 100)) : 0;
+}
 
 export default function SpendsPage() {
-  const total = spends.reduce((s, sp) => s + sp.amount, 0);
-  const sorted = [...spends].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  const totalCollected = families.reduce((sum, family) => sum + getFamilyCollected(family), 0);
+  const totalSpent = spends.reduce((sum, spend) => sum + spend.amount, 0);
+  const totalLeft = totalCollected - totalSpent;
+  const spentPct = percent(totalSpent, totalCollected);
+  const isOverSpent = totalLeft < 0;
+  const sortedSpends = [...spends].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
 
   return (
-    <div className="px-4 pt-6 space-y-4">
-      {/* Page header */}
-      <div>
-        <h1 className="text-2xl font-extrabold text-teal-950">Spends</h1>
-        <p className="text-xs text-gray-400 font-semibold mt-1">
-          {spends.length} {spends.length === 1 ? "entry" : "entries"} · {fmt(total)} total spent
+    <main className="min-h-[calc(100vh-110px)] bg-[#f6f8f7] px-5 pb-4 pt-6 text-[#0f172a]">
+      <header>
+        <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-[#0f766e]">
+          Money Out
         </p>
-      </div>
+        <h1 className="mt-1 text-[34px] font-extrabold leading-none tracking-normal text-[#123331]">
+          Spends
+        </h1>
+        <p className="mt-2 text-sm font-medium text-[#64748b]">
+          Spends are measured against the money collected from families.
+        </p>
+      </header>
 
-      {/* Spends list */}
-      <div className="card p-5 space-y-3.5">
-        {sorted.length === 0 && (
-          <p className="text-center text-xs py-8 text-gray-400 font-semibold">
-            No spends recorded yet.
-          </p>
-        )}
-
-        {sorted.map((spend) => {
-          const style = categoryStyle[spend.category] ?? categoryStyle["Miscellaneous"];
-          return (
-            <div
-              key={spend.id}
-              className="flex items-center gap-3.5 p-3 rounded-2xl hover:bg-gray-50/30 transition-colors duration-200"
-              style={{ background: "rgba(16, 163, 158, 0.03)" }}
-            >
-              {/* Category icon */}
-              <div
-                className="w-10 h-10 rounded-2xl flex items-center justify-center text-lg shrink-0 shadow-sm border border-white/50"
-                style={{ background: style.bg }}
-              >
-                {style.icon}
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-bold text-gray-800 leading-tight">
-                  {spend.description}
-                </p>
-                <div className="flex items-center gap-2 mt-1.5">
-                  <span
-                    className="text-[9px] font-bold px-2 py-0.5 rounded-full"
-                    style={{ background: style.bg, color: style.color }}
-                  >
-                    {spend.category}
-                  </span>
-                  <span className="text-[10px] text-gray-400 font-semibold">
-                    {formatDate(spend.date)}
-                  </span>
-                </div>
-              </div>
-
-              <p className="text-sm font-extrabold shrink-0 text-teal-950">
-                {fmt(spend.amount)}
-              </p>
-            </div>
-          );
-        })}
-
-        {sorted.length > 0 && (
-          <div className="flex items-center justify-between pt-3.5 border-t border-gray-100/50">
-            <span className="font-bold text-gray-400 text-[10px] uppercase tracking-wider">Total Spent</span>
-            <span className="font-extrabold text-base text-amber-500">
-              {fmt(total)}
-            </span>
+      <section className="mt-5 rounded-[24px] bg-white px-4 py-4 shadow-[0_12px_28px_rgba(15,23,42,0.08)]">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#64748b]">
+              Total Spent
+            </p>
+            <p className="mt-1 text-[30px] font-extrabold leading-none text-[#ef4444]">
+              {fmt(totalSpent)}
+            </p>
           </div>
-        )}
-      </div>
-    </div>
+
+          <div className={`rounded-[18px] px-4 py-3 text-right ${isOverSpent ? "bg-[#fef2f2]" : "bg-[#ecfdf5]"}`}>
+            <p className={`text-[11px] font-bold ${isOverSpent ? "text-[#ef4444]" : "text-[#0f766e]"}`}>
+              {isOverSpent ? "Over Spent" : "Remaining"}
+            </p>
+            <p className={`mt-1 text-[18px] font-extrabold ${isOverSpent ? "text-[#ef4444]" : "text-[#0f766e]"}`}>
+              {fmt(Math.abs(totalLeft))}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-4 h-2 rounded-full bg-[#e2e8f0]">
+          <div
+            className="h-full rounded-full bg-[#ef4444]"
+            style={{ width: `${spentPct}%` }}
+          />
+        </div>
+        <div className="mt-2 flex items-center justify-between text-[12px] font-bold">
+          <span className="text-[#ef4444]">{spentPct}% of collected used</span>
+          <span className="text-[#64748b]">Collected {fmt(totalCollected)}</span>
+        </div>
+      </section>
+
+      <section className="mt-5">
+        <h2 className="text-[13px] font-extrabold uppercase tracking-[0.12em] text-[#334155]">
+          Spend List
+        </h2>
+
+        <div className="mt-3 overflow-hidden rounded-[22px] bg-white shadow-[0_8px_20px_rgba(15,23,42,0.06)]">
+          {sortedSpends.map((spend, index) => {
+            const color = categoryColors[spend.category] ?? "#0f766e";
+
+            return (
+              <article
+                key={spend.id}
+                className={`flex items-center gap-3 px-4 py-4 ${
+                  index === 0 ? "" : "border-t border-[#e2e8f0]"
+                }`}
+              >
+                <span
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-[#f1f5f9] text-[16px] font-extrabold text-white"
+                  style={{ backgroundColor: color }}
+                >
+                  {spend.category.charAt(0)}
+                </span>
+
+                <div className="min-w-0 flex-1">
+                  <h3 className="truncate text-[15px] font-extrabold text-[#122827]">
+                    {spend.description}
+                  </h3>
+                  <p className="mt-0.5 text-[12px] font-semibold text-[#64748b]">
+                    {spend.category} • {formatDate(spend.date)}
+                  </p>
+                </div>
+
+                <p className="shrink-0 text-[16px] font-extrabold text-[#ef4444]">
+                  {fmt(spend.amount)}
+                </p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+    </main>
   );
 }
-
