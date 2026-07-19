@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { FEE, families, fmt, getFamilyCollected, getFamilyFee } from "@/data/config";
 
 const avatarGradient: Record<string, string> = {
@@ -112,8 +113,8 @@ export default function FamiliesPage() {
   const fundedPct = percent(totalCollected, totalExpected);
 
   return (
-    <main className="relative h-full overflow-hidden bg-[#f8fafc] text-[#0f172a]">
-      <div className="absolute inset-x-0 top-0 h-[248px] overflow-hidden rounded-b-[32px]">
+    <main className="min-h-screen bg-[#f6f8f7] pb-28 text-[#142322]">
+      <div className="absolute inset-x-0 top-0 h-[200px] overflow-hidden rounded-b-[34px]">
         <Image
           src="/banasura-banner.png"
           alt="Banasura Reservoir"
@@ -125,142 +126,140 @@ export default function FamiliesPage() {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.74)_0%,rgba(255,255,255,0.42)_48%,rgba(248,250,252,0.93)_88%,rgba(248,250,252,1)_100%)]" />
       </div>
 
-      <section className="relative z-10 px-5 pt-7">
+      <section className="relative z-10 px-5 pt-4">
         <div className="flex items-center justify-between">
-          <button
-            type="button"
+          <Link
+            href="/"
             aria-label="Back"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/80 bg-white/85 text-[#0f172a] shadow-[0_12px_28px_rgba(15,23,42,0.10)] backdrop-blur-xl"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/80 bg-white/85 text-[#0f172a] shadow-[0_4px_12px_rgba(15,23,42,0.06)] backdrop-blur-xl"
           >
-            <span className="h-6 w-6">
+            <span className="h-5 w-5">
               <BackIcon />
             </span>
-          </button>
+          </Link>
 
           <button
             type="button"
             aria-label="Add family"
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0f766e] text-white shadow-[0_16px_30px_rgba(15,118,110,0.28)]"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-[#004a43] text-white shadow-[0_8px_16px_rgba(0,74,67,0.2)]"
           >
-            <span className="h-7 w-7">
+            <span className="h-5 w-5">
               <AddFamilyIcon />
             </span>
           </button>
         </div>
 
-        <div className="mt-6">
-          <h1 className="font-display text-[41px] font-extrabold leading-none tracking-normal text-[#063f3b]">
+        <div className="mt-4">
+          <h1 className="text-[28px] font-extrabold uppercase leading-none tracking-normal text-[#004a43]">
             Families
           </h1>
-          <p className="mt-2 text-[15px] font-semibold text-[#64748b]">
+          <p className="mt-1 text-[11px] font-bold uppercase tracking-wider text-[#6a7776]">
             {families.length} families &bull; {totalMembers} members
           </p>
         </div>
       </section>
 
-      <section className="relative z-10 px-5 pt-4">
-        <div className="rounded-[24px] border border-white/90 bg-white/88 px-4 py-3.5 shadow-[0_18px_42px_rgba(15,23,42,0.10)] backdrop-blur-xl">
-          <div className="grid grid-cols-[1fr_1px_1fr] items-center gap-4">
-            <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#e6fffa] text-[#0f766e]">
-                <span className="h-6 w-6">
+      <section className="relative z-10 px-5 pt-3">
+        <div className="rounded-[20px] border border-white/90 bg-white/88 px-3.5 py-3 shadow-[0_10px_24px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+          <div className="grid grid-cols-[1fr_1px_1fr] items-center gap-3">
+            <div className="flex items-center gap-2">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#e6f8f3] text-[#038475]">
+                <span className="h-4 w-4">
                   <WalletIcon />
                 </span>
               </span>
               <div className="min-w-0">
-                <p className="text-[12px] font-semibold text-[#64748b]">Total Collected</p>
-                <p className="mt-1 text-[24px] font-extrabold leading-none text-[#0f766e]">{fmt(totalCollected)}</p>
-                <p className="mt-2 text-[12px] font-semibold text-[#64748b]">of {fmt(totalExpected)}</p>
+                <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#078071]">Collected</p>
+                <p className="mt-0.5 text-[18px] font-extrabold leading-none text-[#037164]">{fmt(totalCollected)}</p>
               </div>
             </div>
 
-            <div className="h-[68px] bg-[#e2e8f0]" />
+            <div className="h-[40px] bg-[#e2e8f0]" />
 
-            <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#fee2e2] text-[#ef4444]">
-                <span className="h-6 w-6">
+            <div className="flex items-center gap-2">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#fdecef] text-[#df4452]">
+                <span className="h-4 w-4">
                   <WalletIcon />
                 </span>
               </span>
               <div className="min-w-0">
-                <p className="text-[12px] font-semibold text-[#64748b]">Still Pending</p>
-                <p className="mt-1 text-[24px] font-extrabold leading-none text-[#ef4444]">{fmt(totalPending)}</p>
-                <p className="mt-2 text-[12px] font-semibold text-[#64748b]">of {fmt(totalExpected)}</p>
+                <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#df4452]">Pending</p>
+                <p className="mt-0.5 text-[18px] font-extrabold leading-none text-[#df3346]">{fmt(totalPending)}</p>
               </div>
             </div>
           </div>
 
-          <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#e2e8f0]">
-            <div className="h-full rounded-full bg-[#0f766e]" style={{ width: `${fundedPct}%` }} />
+          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[#e2e8f0]">
+            <div className="h-full rounded-full bg-[#038475]" style={{ width: `${fundedPct}%` }} />
           </div>
-          <div className="mt-3 flex items-center justify-between">
-            <p className="text-[16px] font-extrabold text-[#0f766e]">
-              {fundedPct}% <span className="text-[12px] font-bold">Funded</span>
+          <div className="mt-2 flex items-center justify-between">
+            <p className="text-[12px] font-extrabold text-[#038475]">
+              {fundedPct}% <span className="text-[10px] font-bold">Funded</span>
             </p>
-            <p className="text-[12px] font-semibold text-[#64748b]">Target: {fmt(totalExpected)}</p>
+            <p className="text-[10px] font-semibold text-[#64748b]">Target: {fmt(totalExpected)}</p>
           </div>
         </div>
       </section>
 
       <section className="px-5 pt-3">
-        <div className="rounded-[24px] border border-white/90 bg-white/92 px-4 py-3 shadow-[0_16px_36px_rgba(15,23,42,0.07)]">
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-[14px] font-extrabold text-[#0f172a]">Fee Structure</h2>
-            <p className="text-[10px] font-medium text-[#64748b]">Based on per member</p>
+        <div className="rounded-[16px] border border-white/90 bg-white/92 px-3 py-2.5 shadow-[0_4px_16px_rgba(15,23,42,0.04)]">
+          <div className="mb-2 flex items-center justify-between">
+            <h2 className="text-[11px] font-extrabold uppercase tracking-wider text-[#162525]">Fee Structure</h2>
+            <p className="text-[9px] font-medium text-[#64748b]">Based on per member</p>
           </div>
 
-          <div className="grid grid-cols-3 gap-3">
-            <div className="rounded-[18px] border border-[#e2e8f0] bg-white px-2 py-2.5 text-center">
-              <span className="mx-auto mb-1.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#ecfdf5] text-[#0f766e]">
-                <span className="h-5 w-5">
+          <div className="grid grid-cols-3 gap-2">
+            <div className="rounded-[14px] border border-[#e2e8f0] bg-white px-2 py-2 text-center">
+              <span className="mx-auto mb-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#ecfdf5] text-[#038475]">
+                <span className="h-3.5 w-3.5">
                   <PeopleIcon />
                 </span>
               </span>
-              <p className="text-[12px] font-extrabold text-[#0f766e]">Above 12</p>
-              <p className="mt-0.5 text-[18px] font-extrabold text-[#0f766e]">{fmt(FEE.adult)}</p>
-              <p className="mt-0.5 text-[10px] font-bold text-[#0f766e]">{totalAdults} members</p>
+              <p className="text-[10px] font-extrabold uppercase text-[#038475]">Above 12</p>
+              <p className="mt-0.5 text-[14px] font-extrabold text-[#038475]">{fmt(FEE.adult)}</p>
+              <p className="text-[9px] font-bold text-[#038475]">{totalAdults} members</p>
             </div>
 
-            <div className="rounded-[18px] border border-[#fef3c7] bg-white px-2 py-2.5 text-center">
-              <span className="mx-auto mb-1.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#fff7ed] text-[#b45309]">
-                <span className="h-5 w-5">
+            <div className="rounded-[14px] border border-[#fef3c7] bg-white px-2 py-2 text-center">
+              <span className="mx-auto mb-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#fff7ed] text-[#b45309]">
+                <span className="h-3.5 w-3.5">
                   <PersonIcon />
                 </span>
               </span>
-              <p className="text-[12px] font-extrabold text-[#b45309]">6 - 12</p>
-              <p className="mt-0.5 text-[18px] font-extrabold text-[#b45309]">{fmt(FEE.kid)}</p>
-              <p className="mt-0.5 text-[10px] font-bold text-[#b45309]">{totalKids} members</p>
+              <p className="text-[10px] font-extrabold uppercase text-[#b45309]">6 - 12</p>
+              <p className="mt-0.5 text-[14px] font-extrabold text-[#b45309]">{fmt(FEE.kid)}</p>
+              <p className="text-[9px] font-bold text-[#b45309]">{totalKids} members</p>
             </div>
 
-            <div className="rounded-[18px] border border-[#dcfce7] bg-white px-2 py-2.5 text-center">
-              <span className="mx-auto mb-1.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#f0fdf4] text-[#15803d]">
-                <span className="h-5 w-5">
+            <div className="rounded-[14px] border border-[#dcfce7] bg-white px-2 py-2 text-center">
+              <span className="mx-auto mb-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#f0fdf4] text-[#15803d]">
+                <span className="h-3.5 w-3.5">
                   <ChildIcon />
                 </span>
               </span>
-              <p className="text-[12px] font-extrabold text-[#15803d]">0 - 6</p>
-              <p className="mt-0.5 text-[18px] font-extrabold text-[#15803d]">Free</p>
-              <p className="mt-0.5 text-[10px] font-bold text-[#15803d]">{totalInfants} members</p>
+              <p className="text-[10px] font-extrabold uppercase text-[#15803d]">0 - 6</p>
+              <p className="mt-0.5 text-[14px] font-extrabold text-[#15803d]">Free</p>
+              <p className="text-[9px] font-bold text-[#15803d]">{totalInfants} members</p>
             </div>
           </div>
         </div>
       </section>
 
       <section className="px-5 pt-3">
-        <div className="mb-2 flex items-center justify-between px-2">
-          <h2 className="text-[14px] font-semibold text-[#334155]">Families Overview</h2>
-          <div className="flex items-center gap-2 text-[13px] font-semibold text-[#334155]">
-            <span className="h-4 w-4">
+        <div className="mb-2 flex items-center justify-between">
+          <h2 className="text-[11px] font-extrabold uppercase tracking-wider text-[#162525]">Families Overview</h2>
+          <div className="flex items-center gap-1 text-[11px] font-bold text-[#007a6d]">
+            <span className="h-3 w-3">
               <FilterIcon />
             </span>
             <span>Recent</span>
-            <span className="h-3.5 w-3.5">
+            <span className="h-3 w-3">
               <ChevronDownIcon />
             </span>
           </div>
         </div>
 
-        <div className="space-y-1.5">
+        <div className="space-y-3 mt-4">
           {families.map((family) => {
             const totalFee = getFamilyFee(family);
             const collected = getFamilyCollected(family);
@@ -270,41 +269,41 @@ export default function FamiliesPage() {
             return (
               <article
                 key={family.id}
-                className="relative flex h-[53px] items-center gap-3 rounded-[19px] bg-white px-3.5 shadow-[0_10px_24px_rgba(15,23,42,0.06)]"
+                className="relative flex min-h-[64px] items-center gap-3 rounded-[18px] bg-white px-3 shadow-[0_8px_20px_rgba(15,23,42,0.06)] py-2"
               >
                 <div
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[18px] font-extrabold text-white shadow-[0_10px_18px_rgba(15,118,110,0.22)]"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[16px] font-extrabold text-white shadow-sm"
                   style={{ background: avatarGradient[family.id] ?? avatarGradient["1"] }}
                 >
                   {family.familyName[0]}
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-center justify-between gap-2">
                     <div className="min-w-0">
-                      <h3 className="truncate text-[13px] font-extrabold leading-tight text-[#0f172a]">
+                      <h3 className="truncate text-[14px] font-extrabold leading-none text-[#182b2c]">
                         {family.familyName}
                       </h3>
-                      <p className="mt-0.5 truncate text-[10px] font-bold text-[#64748b]">
+                      <p className="mt-1 truncate text-[10px] font-bold text-[#7c8588]">
                         <span>{rowMeta[family.id]}</span>
                       </p>
-                      <p className={`mt-0.5 text-[8px] font-extrabold ${pending === 0 ? "text-[#16a34a]" : "text-[#ef4444]"}`}>
-                        {pending === 0 ? "Fully Paid" : `${fmt(pending)} pending`}
+                      <p className={`mt-0.5 text-[9px] font-extrabold ${pending === 0 ? "text-[#038475]" : "text-[#df4452]"}`}>
+                        {pending === 0 ? "FULLY PAID" : `${fmt(pending)} PENDING`}
                       </p>
                     </div>
 
                     <div className="shrink-0 pr-6 text-right">
-                      <p className="text-[15px] font-extrabold leading-none text-[#0f766e]">{fmt(collected)}</p>
-                      <p className="mt-1 text-[10px] font-bold text-[#64748b]">of {fmt(totalFee)}</p>
+                      <p className="text-[15px] font-extrabold leading-none text-[#007a6d]">{fmt(collected)}</p>
+                      <p className="mt-1 text-[10px] font-bold text-[#7c8588]">of {fmt(totalFee)}</p>
                     </div>
                   </div>
 
-                  <div className="absolute bottom-0 left-[82px] right-[34px] h-0.5 overflow-hidden rounded-full bg-[#eef2f1]">
-                    <div className="h-full rounded-full bg-[#0f766e]" style={{ width: `${pct}%` }} />
+                  <div className="absolute bottom-0 left-[60px] right-[28px] h-[3px] overflow-hidden rounded-full bg-[#eef2f1]">
+                    <div className="h-full rounded-full bg-[#038475]" style={{ width: `${pct}%` }} />
                   </div>
                 </div>
 
-                <span className="absolute right-3 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#0f172a] shadow-[0_4px_12px_rgba(15,23,42,0.10)]">
+                <span className="absolute right-2 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center text-[#64748b]">
                   <span className="h-4 w-4">
                     <ChevronDownIcon />
                   </span>
