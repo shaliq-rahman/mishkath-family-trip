@@ -18,7 +18,7 @@ export const AGE_LABEL: Record<PersonType, string> = {
 export const TRIP_NAME = "Mishkath Banasura Family Trip 2026";
 export const TRIP_HEADLINE = ["MISHKATH", "BANASURA"];
 export const TRIP_DESTINATION = "Kerala, India";
-export const TRIP_DATES = "Aug 15 – 22, 2026";
+export const TRIP_DATES = "July 25 – 26, 2026";
 
 export interface Person {
   name: string;
