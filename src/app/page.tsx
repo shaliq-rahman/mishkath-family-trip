@@ -1,15 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import {
-  families,
-  payments,
-  spends,
   getFamilyFee,
   getFamilyCollected,
   fmt,
   TRIP_DESTINATION,
   TRIP_DATES,
 } from "@/data/config";
+import { useTripData } from "@/data/trip-store";
 
 const familyColors: Record<string, string> = {
   "1": "#0f766e",
@@ -88,6 +88,7 @@ function PeopleIcon() {
 }
 
 export default function Home() {
+  const { families, payments, spends } = useTripData();
   const totalExpected = families.reduce((sum, family) => sum + getFamilyFee(family), 0);
   const totalCollected = families.reduce((sum, family) => sum + getFamilyCollected(family), 0);
   const totalPending = totalExpected - totalCollected;
@@ -245,6 +246,7 @@ export default function Home() {
         <div className="glass-card overflow-hidden rounded-[26px]">
           {recentPayments.map((payment, index) => {
             const avatarColor = familyColors[payment.familyId] ?? "#0f766e";
+            const paymentLabel = payment.kind === "family" ? "Family payment" : payment.type ?? "Payment";
 
             return (
               <div
@@ -263,7 +265,7 @@ export default function Home() {
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[14px] font-black text-[#123331]">{payment.personName}</p>
                   <p className="mt-0.5 truncate text-[11px] font-bold text-[#64748b]">
-                    {payment.familyName.replace(" Family", "")} • {payment.type}
+                    {payment.familyName.replace(" Family", "")} • {paymentLabel}
                   </p>
                 </div>
 

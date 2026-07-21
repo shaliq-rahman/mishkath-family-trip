@@ -32,6 +32,7 @@ export default function RecentPayments({ payments }: { payments: Payment[] }) {
       <div className="space-y-2">
         {payments.map((p) => {
           const avatarColor = familyColors[p.familyId] ?? "#374151";
+          const paymentLabel = p.kind === "family" ? "Family payment" : p.type ?? "Payment";
           return (
             <div
               key={p.id}
@@ -53,7 +54,7 @@ export default function RecentPayments({ payments }: { payments: Payment[] }) {
                 </p>
                 <p className="text-xs truncate" style={{ color: "var(--color-muted)" }}>
                   {p.familyName} ·{" "}
-                  <span className="capitalize">{p.type}</span>
+                  <span className="capitalize">{paymentLabel}</span>
                 </p>
               </div>
 

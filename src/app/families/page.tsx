@@ -1,11 +1,14 @@
-import { AGE_LABEL, FEE, families, fmt, getFamilyCollected, getFamilyFee } from "@/data/config";
+"use client";
+
+import { AGE_LABEL, FEE, fmt, getFamilyCollected, getFamilyFee, type Family } from "@/data/config";
 import PageVectorArt from "@/components/PageVectorArt";
+import { useTripData } from "@/data/trip-store";
 
 function percent(value: number, total: number) {
   return total > 0 ? Math.min(100, Math.round((value / total) * 100)) : 100;
 }
 
-function memberSummary(family: (typeof families)[number]) {
+function memberSummary(family: Family) {
   const adults = family.members.filter((member) => member.type === "adult").length;
   const kids = family.members.filter((member) => member.type === "kid").length;
   const infants = family.members.filter((member) => member.type === "infant").length;
@@ -22,6 +25,7 @@ function ChevronDownIcon() {
 }
 
 export default function FamiliesPage() {
+  const { families } = useTripData();
   const totalExpected = families.reduce((sum, family) => sum + getFamilyFee(family), 0);
   const totalCollected = families.reduce((sum, family) => sum + getFamilyCollected(family), 0);
   const totalPending = totalExpected - totalCollected;
@@ -77,7 +81,7 @@ export default function FamiliesPage() {
         </h2>
 
         <div className="mt-3 space-y-3">
-          {families.map((family) => {
+          {families.slice().reverse().map((family) => {
             const expected = getFamilyFee(family);
             const collected = getFamilyCollected(family);
             const pending = expected - collected;
@@ -132,9 +136,7 @@ export default function FamiliesPage() {
                 <div className="divide-y divide-white/45 border-t border-white/45 bg-white/18 px-4 backdrop-blur-xl">
                   {family.members.map((member) => {
                     const due = FEE[member.type];
-                    const pendingForMember = Math.max(0, due - member.paid);
                     const isFree = due === 0;
-                    const isMemberPaid = isFree || pendingForMember === 0;
 
                     return (
                       <div key={member.name} className="flex items-center justify-between gap-3 py-3">
@@ -143,17 +145,15 @@ export default function FamiliesPage() {
                             {member.name}
                           </p>
                           <p className="mt-0.5 text-[11px] font-semibold text-[#64748b]">
-                            {AGE_LABEL[member.type]} • Fee {isFree ? "Free" : fmt(due)}
+                            {AGE_LABEL[member.type]}
                           </p>
                         </div>
 
                         <div className="shrink-0 text-right">
-                          <p className="text-[13px] font-extrabold text-[#0f766e]">
-                            {isFree ? "Free" : fmt(member.paid)}
+                          <p className="text-[13px] font-extrabold text-[#122827]">
+                            {isFree ? "Free" : fmt(due)}
                           </p>
-                          <p className={`text-[11px] font-bold ${isMemberPaid ? "text-[#0f766e]" : "text-[#ef4444]"}`}>
-                            {isMemberPaid ? "Paid" : `${fmt(pendingForMember)} due`}
-                          </p>
+                          <p className="text-[11px] font-bold text-[#64748b]">Fee</p>
                         </div>
                       </div>
                     );

@@ -1,5 +1,8 @@
-import { expenseCategories, spends, fmt } from "@/data/config";
+"use client";
+
+import { fmt } from "@/data/config";
 import PageVectorArt from "@/components/PageVectorArt";
+import { useTripData } from "@/data/trip-store";
 
 const categoryColors: Record<string, string> = {
   Transport: "#2563eb",
@@ -14,6 +17,7 @@ function percent(value: number, total: number) {
 }
 
 export default function BudgetPage() {
+  const { expenseCategories, spends } = useTripData();
   const totalBudget = expenseCategories.reduce((sum, category) => sum + category.expected, 0);
   const totalSpent = spends.reduce((sum, spend) => sum + spend.amount, 0);
   const totalLeft = totalBudget - totalSpent;

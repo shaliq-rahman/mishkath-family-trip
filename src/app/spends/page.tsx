@@ -1,5 +1,8 @@
-import { families, spends, fmt, getFamilyCollected } from "@/data/config";
+"use client";
+
+import { fmt, getFamilyCollected } from "@/data/config";
 import PageVectorArt from "@/components/PageVectorArt";
+import { useTripData } from "@/data/trip-store";
 
 const categoryColors: Record<string, string> = {
   Transport: "#2563eb",
@@ -21,6 +24,7 @@ function percent(value: number, total: number) {
 }
 
 export default function SpendsPage() {
+  const { families, spends } = useTripData();
   const totalCollected = families.reduce((sum, family) => sum + getFamilyCollected(family), 0);
   const totalSpent = spends.reduce((sum, spend) => sum + spend.amount, 0);
   const totalLeft = totalCollected - totalSpent;
