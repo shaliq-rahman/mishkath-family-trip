@@ -101,8 +101,8 @@ export default function Home() {
     .slice(0, 3);
 
   return (
-    <main className="textured-page min-h-screen pb-[126px] text-[#142322]">
-      <section className="relative min-h-[336px] overflow-hidden px-5 pb-16 pt-6">
+    <main className="textured-page min-h-dvh pb-[calc(148px+env(safe-area-inset-bottom))] text-[#142322]">
+      <section className="relative min-h-[310px] overflow-hidden px-5 pb-12 pt-6">
         <Image
           src="/resort-banner.png"
           alt="Luxury resort"
@@ -133,11 +133,11 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="relative z-10 mt-10">
+        <div className="relative z-10 mt-7">
           <p className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-[#0f766e]">
             Resort Fund Dashboard
           </p>
-          <h1 className="mt-2 text-[50px] font-black uppercase leading-[0.86] tracking-normal text-[#003f39] drop-shadow-[0_2px_18px_rgba(255,255,255,0.55)]">
+          <h1 className="mt-2 text-[46px] font-black uppercase leading-[0.86] tracking-normal text-[#003f39] drop-shadow-[0_2px_18px_rgba(255,255,255,0.55)]">
             MISHKATH
           </h1>
 
@@ -158,9 +158,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative z-20 -mt-24 px-5">
-        <div className="overflow-hidden rounded-[32px] border border-white/55 bg-[#004a43]/82 text-white shadow-[0_26px_58px_rgba(0,74,67,0.28)] backdrop-blur-2xl">
-          <div className="relative p-4 pb-3">
+      <section className="relative z-20 -mt-20 px-5">
+        <div className="overflow-hidden rounded-[28px] border border-white/55 bg-[#004a43]/82 text-white shadow-[0_26px_58px_rgba(0,74,67,0.28)] backdrop-blur-2xl">
+          <div className="relative p-4 pb-2.5">
             <div className="absolute right-[-34px] top-[-34px] h-28 w-28 rounded-full border border-white/20 bg-white/10" />
             <div className="absolute bottom-[-44px] left-[-24px] h-28 w-28 rounded-full bg-[#2dd4bf]/18 blur-xl" />
 
@@ -170,7 +170,7 @@ export default function Home() {
                   Fund Progress
                 </p>
                 <div className="mt-1.5 flex items-end gap-2">
-                  <p className="text-[42px] font-black leading-none">{fundedPct}%</p>
+                  <p className="text-[38px] font-black leading-none">{fundedPct}%</p>
                   <p className="pb-1 text-[13px] font-bold text-[#98f5d4]">Funded</p>
                 </div>
                 <p className="mt-1.5 text-[12px] font-semibold text-white/72">
@@ -185,7 +185,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="relative mt-3.5 h-2 overflow-hidden rounded-full bg-white/14">
+            <div className="relative mt-3 h-2 overflow-hidden rounded-full bg-white/14">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-[#42e98a] via-[#2dd4bf] to-[#67e8f9] shadow-[16px_0_30px_rgba(45,212,191,0.35)]"
                 style={{ width: `${fundedPct}%` }}
@@ -194,15 +194,15 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-3 divide-x divide-white/14 border-t border-white/14 bg-white/10 backdrop-blur-xl">
-            <Link href="/families" className="px-3 py-2.5 text-center">
+            <Link href="/families" className="px-3 py-2 text-center">
               <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-white/60">Families</p>
               <p className="mt-1 text-[20px] font-black">{families.length}</p>
             </Link>
-            <Link href="/families" className="px-3 py-2.5 text-center">
+            <Link href="/families" className="px-3 py-2 text-center">
               <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-white/60">Members</p>
               <p className="mt-1 text-[20px] font-black">{totalMembers}</p>
             </Link>
-            <Link href="/spends" className="px-3 py-2.5 text-center">
+            <Link href="/spends" className="px-3 py-2 text-center">
               <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-white/60">Cash Left</p>
               <p className={`mt-1 text-[20px] font-black ${cashLeft < 0 ? "text-[#fecaca]" : "text-[#98f5d4]"}`}>
                 {cashLeft < 0 ? "-" : ""}
@@ -215,14 +215,14 @@ export default function Home() {
 
       <section className="relative z-10 px-5 pt-3">
         <div className="grid grid-cols-2 gap-3">
-          <Link href="/families" className="glass-card rounded-[22px] p-3">
+          <Link href="/families" className="glass-card rounded-[22px] p-2.5">
             <span className="glass-soft flex h-8 w-8 items-center justify-center rounded-[14px] text-[#0f766e]">
               <WalletIcon />
             </span>
             <p className="mt-2 text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#0f766e]">Total Collected</p>
             <p className="mt-0.5 text-[19px] font-black text-[#0f766e]">{fmt(totalCollected)}</p>
           </Link>
-          <Link href="/families" className="glass-card rounded-[22px] p-3">
+          <Link href="/families" className="glass-card rounded-[22px] p-2.5">
             <span className="glass-soft flex h-8 w-8 items-center justify-center rounded-[14px] text-[#ef4444]">
               <WalletIcon />
             </span>

@@ -29,7 +29,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <main className="textured-page flex min-h-screen items-center px-5 py-8 text-[#0f172a]">
+    <main className="textured-page flex min-h-dvh items-center px-5 py-8 text-[#0f172a]">
       <section className="glass-panel relative z-10 w-full rounded-[30px] p-5">
         <p className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-[#0f766e]">
           Admin Access

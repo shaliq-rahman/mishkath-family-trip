@@ -33,7 +33,7 @@ export default function FamiliesPage() {
   const fundedPct = percent(totalCollected, totalExpected);
 
   return (
-    <main className="textured-page min-h-[calc(100vh-110px)] px-5 pb-4 pt-6 text-[#0f172a]">
+    <main className="textured-page min-h-[calc(100dvh-104px)] px-5 pb-[calc(24px+env(safe-area-inset-bottom))] pt-6 text-[#0f172a]">
       <PageVectorArt variant="families" />
       <header className="relative z-10">
         <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-[#0f766e]">

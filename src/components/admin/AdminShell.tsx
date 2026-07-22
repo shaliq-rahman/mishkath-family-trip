@@ -70,7 +70,7 @@ export function AdminShell({
 
   if (!isAdmin) {
     return (
-      <main className="textured-page flex min-h-screen items-center px-5 py-8 text-[#0f172a]">
+      <main className="textured-page flex min-h-dvh items-center px-5 py-8 text-[#0f172a]">
         <section className="glass-panel relative z-10 w-full rounded-[30px] p-5 text-center">
           <p className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-[#ef4444]">Locked</p>
           <h1 className="mt-2 text-[30px] font-black text-[#123331]">Admin Login Required</h1>
@@ -86,7 +86,7 @@ export function AdminShell({
   }
 
   return (
-    <main className="textured-page min-h-screen px-5 pb-[122px] pt-6 text-[#0f172a]">
+    <main className="textured-page min-h-dvh px-5 pb-[calc(134px+env(safe-area-inset-bottom))] pt-6 text-[#0f172a]">
       <header className="relative z-10 flex items-start justify-between gap-4">
         <div>
           <p className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-[#0f766e]">
@@ -114,19 +114,19 @@ export function AdminShell({
       <nav
         style={{
           position: "fixed",
-          bottom: "26px",
+          bottom: "max(14px, calc(env(safe-area-inset-bottom) + 12px))",
           left: "50%",
           transform: "translateX(-50%)",
-          width: "calc(100% - 48px)",
-          maxWidth: "382px",
+          width: "calc(100% - 36px)",
+          maxWidth: "394px",
           zIndex: 50,
-          borderRadius: "26px",
+          borderRadius: "24px",
           background: "rgba(255, 255, 255, 0.42)",
           backdropFilter: "blur(26px) saturate(165%)",
           WebkitBackdropFilter: "blur(26px) saturate(165%)",
           border: "1px solid rgba(255, 255, 255, 0.58)",
           boxShadow: "0 18px 40px rgba(18,45,42,0.14), inset 0 1px 0 rgba(255,255,255,0.56)",
-          padding: "10px 10px 9px",
+          padding: "7px 8px 6px",
           display: "flex",
           alignItems: "center",
           gap: "2px",
@@ -143,8 +143,8 @@ export function AdminShell({
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: "5px",
-                padding: "5px 4px 4px",
+                gap: "4px",
+                padding: "4px 3px 2px",
                 borderRadius: "16px",
                 background: "transparent",
                 color: isActive ? "#007a6d" : "#60676b",
